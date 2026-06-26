@@ -39,9 +39,12 @@ def get_factor_env(
     if hasattr(conf, "python_bin"):
         env = LocalEnv(conf=(CondaConf(conda_env_name=os.environ.get("CONDA_DEFAULT_ENV"))))
     env.conf.extra_volumes = extra_volumes.copy()
-    env.conf.running_timeout_period = running_timeout_period
+    # Respect RUNNING_TIMEOUT_PERIOD=None from .env, which is useful on macOS
+    # where GNU `timeout` is not installed by default.
+    if os.environ.get("RUNNING_TIMEOUT_PERIOD") != "None":
+        env.conf.running_timeout_period = running_timeout_period    
     if enable_cache is not None:
-        env.conf.enable_cache = enable_cache
+            env.conf.enable_cache = enable_cache
     env.prepare()
     return env
 
