@@ -1027,6 +1027,7 @@ class QlibDockerConf(DockerConf):
     enable_gpu: bool = True
     enable_cache: bool = False
     save_logs_to_file: bool = True  # Explicitly inherit from DockerConf for compatibility
+    env_dict: dict = {"MLFLOW_ALLOW_FILE_STORE": "true"}
 
 
 class KGDockerConf(DockerConf):
