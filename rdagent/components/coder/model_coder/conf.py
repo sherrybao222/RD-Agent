@@ -16,7 +16,7 @@ class ModelCoSTEERSettings(CoSTEERSettings):
 def get_model_env(
     conf_type: Optional[str] = None,
     extra_volumes: Optional[dict] = None,
-    running_timeout_period: int = 600,
+    running_timeout_period: int | None = None,
     enable_cache: Optional[bool] = None,
 ) -> Env:
     conf = ModelCoSTEERSettings()
@@ -29,7 +29,8 @@ def get_model_env(
 
     if extra_volumes is not None:
         env.conf.extra_volumes.update(extra_volumes)
-    env.conf.running_timeout_period = running_timeout_period
+    if running_timeout_period is not None:
+        env.conf.running_timeout_period = running_timeout_period
     if enable_cache is not None:
         env.conf.enable_cache = enable_cache
     env.prepare()
